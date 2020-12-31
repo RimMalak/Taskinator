@@ -187,7 +187,7 @@ var dorpZoneDragHandler = function(event)
     
     if(taskListEl){
         event.preventDefault();
-        console.dir(taskListEl);
+        taskListEl.setAttribute("style", "background: rgba(68,233,255,0.7); border-style: dashed;");
     }
 };
 
@@ -202,17 +202,29 @@ var dropTaskHandler = function(event)
     if(statusType === "tasks-to-do")
     {
         statusSelectEl.selectedIndex = 0;
+        dropZoneEl.removeAttribute("style");
     }
     else if(statusType === "tasks-in-progress")
     {
         statusSelectEl.selectedIndex = 1;
+        dropZoneEl.removeAttribute("style");
     }
     else if(statusType === "tasks-completed")
     {
         statusSelectEl.selectedIndex = 2;
+        dropZoneEl.removeAttribute("style");
     }
 
     dropZoneEl.appendChild(draggableElement);
+};
+
+var dragLeaveHandler = function (event)
+{
+    var taskListEl = event.target.closest(".task-list");
+    if(taskListEl)
+    {
+        taskListEl.removeAttribute("style");
+    }
 };
 
 formEl.addEventListener("submit", taskFormHandler);
@@ -226,3 +238,5 @@ pageContentEl.addEventListener("dragstart", dragTaskHandler);
 pageContentEl.addEventListener("dragover", dorpZoneDragHandler);
 
 pageContentEl.addEventListener("drop", dropTaskHandler);
+
+pageContentEl.addEventListener("dragleave", dragLeaveHandler);
